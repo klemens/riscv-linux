@@ -29,6 +29,7 @@
 #include <linux/of_fdt.h>
 #include <linux/of_platform.h>
 #include <linux/sched/task.h>
+#include <linux/swiotlb.h>
 
 #include <asm/setup.h>
 #include <asm/sections.h>
@@ -171,7 +172,7 @@ static void __init setup_bootmem(void)
 	BUG_ON(mem_size == 0);
 
 	set_max_mapnr(PFN_DOWN(mem_size));
-	max_low_pfn = pfn_base + PFN_DOWN(mem_size);
+	max_low_pfn = memblock_end_of_DRAM();
 
 #ifdef CONFIG_BLK_DEV_INITRD
 	setup_initrd();
@@ -206,6 +207,8 @@ void __init setup_arch(char **cmdline_p)
 	setup_bootmem();
 	paging_init();
 	unflatten_device_tree();
+
+	swiotlb_init(1);
 
 #ifdef CONFIG_SMP
 	setup_smp();
