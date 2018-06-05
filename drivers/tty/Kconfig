@@ -398,6 +398,14 @@ config GOLDFISH_TTY
 	help
 	  Console and system TTY driver for the Goldfish virtual platform.
 
+config ML507_TTY
+	tristate "ML507 TTY Driver"
+	select SERIAL_CORE
+	select SERIAL_CORE_CONSOLE
+	select SERIAL_EARLYCON
+	help
+	  Console and system TTY driver for the ML507 terminal.
+
 config DA_TTY
 	bool "DA TTY"
 	depends on METAG_DA
